@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  urlshortener-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5294:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Data Source=/app/data/urlshortener.db
+    volumes:
+      - ./data:/app/data

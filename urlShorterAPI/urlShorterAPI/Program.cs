@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 using urlShorterAPI.Data;
 using urlShorterAPI.Endpoints;
 
@@ -8,14 +9,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configure database - you can switch between SQLite or in-memory as needed
+// Ensure database directory exists
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=urlshortener.db";
+var dbPath = connectionString.Replace("Data Source=", "").Split(';')[0];
+var dbDirectory = Path.GetDirectoryName(dbPath);
+if (!string.IsNullOrEmpty(dbDirectory) && !Directory.Exists(dbDirectory))
+{
+    Directory.CreateDirectory(dbDirectory);
+}
+
+// Configure database
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     // Use SQLite database
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=urlshortener.db");
-    
-    // Alternatively, use in-memory database for testing
-    // options.UseInMemoryDatabase("UrlShortenerDb");
+    options.UseSqlite(connectionString);
 });
 
 // Configure logging
@@ -30,7 +37,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Removed HTTPS redirection for Docker compatibility
+// app.UseHttpsRedirection();
+
+// Apply any pending migrations
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate();
+}
 
 // Map the URL shortener endpoints using extension method
 app.MapShortenerEndPoints();

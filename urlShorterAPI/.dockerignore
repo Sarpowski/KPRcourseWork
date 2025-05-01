@@ -1,0 +1,28 @@
+# Git files
+.git
+.gitignore
+
+# Build artifacts
+**/bin/
+**/obj/
+**/out/
+
+# User-specific files
+**/*.user
+**/*.userosscache
+**/*.sln.docstates
+**/.vs/
+
+# Database files (we'll create these in the container)
+**/*.db
+**/*.sqlite
+
+# Node modules (if any)
+**/node_modules/
+
+# Logs
+**/*.log
+
+# Docker files (to avoid recursion)
+Dockerfile
+docker-compose.yml
