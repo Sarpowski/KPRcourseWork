@@ -1,15 +1,20 @@
+using Microsoft.EntityFrameworkCore;
+using urlShorterAPI.Data;
+using urlShorterAPI.Controllers;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlite("Data Source=Data/identifier.sqlite"));
+
+// Build the app
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Enable Swagger in development mode
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -17,9 +22,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
+
+
+UrlControllers.MapShortenerEndPoints(app);
 
 app.Run();
