@@ -19,12 +19,19 @@ namespace urlShorterAPI.Data.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     OriginalUrl = table.Column<string>(type: "TEXT", nullable: false),
                     ShortenUrl = table.Column<string>(type: "TEXT", nullable: false),
-                    ExpiryDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    TTLMinutes = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UrlShorteners", x => x.Id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UrlShorteners_ShortenUrl",
+                table: "UrlShorteners",
+                column: "ShortenUrl",
+                unique: true);
         }
 
         /// <inheritdoc />

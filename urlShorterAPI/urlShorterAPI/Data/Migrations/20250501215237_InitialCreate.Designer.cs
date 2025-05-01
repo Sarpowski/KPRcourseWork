@@ -11,7 +11,7 @@ using urlShorterAPI.Data;
 namespace urlShorterAPI.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250501111044_InitialCreate")]
+    [Migration("20250501215237_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -26,7 +26,7 @@ namespace urlShorterAPI.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("ExpiryDate")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("OriginalUrl")
@@ -37,7 +37,13 @@ namespace urlShorterAPI.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("TTLMinutes")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ShortenUrl")
+                        .IsUnique();
 
                     b.ToTable("UrlShorteners");
                 });

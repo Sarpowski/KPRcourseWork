@@ -1,20 +1,29 @@
 using Microsoft.EntityFrameworkCore;
 using urlShorterAPI.Data;
-using urlShorterAPI.Controllers;
+using urlShorterAPI.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+// Add services to the container
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Configure database - you can switch between SQLite or in-memory as needed
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite("Data Source=Data/identifier.sqlite"));
+{
+    // Use SQLite database
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=urlshortener.db");
+    
+    // Alternatively, use in-memory database for testing
+    // options.UseInMemoryDatabase("UrlShortenerDb");
+});
 
-// Build the app
+// Configure logging
+builder.Logging.AddConsole();
+
 var app = builder.Build();
 
-// Enable Swagger in development mode
+// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -22,10 +31,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthorization();
-app.MapControllers();
 
-
-UrlControllers.MapShortenerEndPoints(app);
+// Map the URL shortener endpoints using extension method
+app.MapShortenerEndPoints();
 
 app.Run();
