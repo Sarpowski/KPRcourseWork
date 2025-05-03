@@ -5,6 +5,17 @@ using urlShorterAPI.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add these lines to your service configuration
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200") // Angular dev server
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 // Add services to the container
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -46,6 +57,8 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     dbContext.Database.Migrate();
 }
+// Add this before app.MapShortenerEndPoints();
+app.UseCors("AllowAngularApp");
 
 // Map the URL shortener endpoints using extension method
 app.MapShortenerEndPoints();
