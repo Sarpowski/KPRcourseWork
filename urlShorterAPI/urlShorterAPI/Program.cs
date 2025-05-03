@@ -11,13 +11,18 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
     {
-        policy.WithOrigins("http://localhost:4200") // Angular dev server
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-        
-        // policy.WithOrigins("http://localhost:4200", "http://localhost:80", "http://urlshortener-client")
+        // policy.WithOrigins("http://localhost:4200") // Angular dev server
         //     .AllowAnyHeader()
         //     .AllowAnyMethod();
+        policy.WithOrigins(
+                        "http://localhost:4200",  // Angular dev server
+                        "http://localhost:80",    // Angular in Docker
+                        "http://urlshortener-client", // Docker service name
+                        "http://localhost"        // Just localhost
+                    )
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+       
         
     });
 });

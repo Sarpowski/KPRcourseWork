@@ -4,6 +4,7 @@ services:
     build:
       context: ./urlShorterAPI
       dockerfile: Dockerfile
+    container_name: urlshortener-api  
     ports:
       - "5295:80"
     environment:
@@ -20,6 +21,7 @@ services:
     build:
       context: ./urlShorterClient
       dockerfile: Dockerfile
+    container_name: urlshortener-client  
     ports:
       - "80:80"
     depends_on:
