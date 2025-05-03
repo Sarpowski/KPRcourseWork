@@ -15,7 +15,6 @@ public class ApplicationDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // Configure ShortUrl entity
         modelBuilder.Entity<ShortUrl>(entity =>
         {
             entity.HasKey(e => e.Id);

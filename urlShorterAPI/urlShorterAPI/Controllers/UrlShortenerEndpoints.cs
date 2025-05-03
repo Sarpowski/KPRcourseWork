@@ -38,7 +38,7 @@ public static class UrlShortenerEndpoints
 
                 var shortLink = await GenerateUniqueShortUrl(db);
 
-                // Default TTL of 60 minutes (1 hour) if not specified
+                // Default TTL of 10 minutes  if not specified
                 int ttlMinutes = url.TTLMinutes > 0 ? url.TTLMinutes : 10;
 
                 var sUrl = new ShortUrl
