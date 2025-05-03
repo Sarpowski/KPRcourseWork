@@ -1,0 +1,32 @@
+services:
+  # Backend API service
+  urlshortener-api:
+    build:
+      context: ./urlShorterAPI
+      dockerfile: Dockerfile
+    ports:
+      - "5295:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Data Source=/app/data/urlshortener.db
+    volumes:
+      - ./data:/app/data
+    networks:
+      - urlshortener-network
+
+  # Frontend Angular service
+  urlshortener-client:
+    build:
+      context: ./urlShorterClient
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - urlshortener-api
+    networks:
+      - urlshortener-network
+
+networks:
+  urlshortener-network:
+    driver: bridge
