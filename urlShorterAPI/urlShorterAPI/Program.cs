@@ -6,6 +6,7 @@ using urlShorterAPI.Endpoints;
 var builder = WebApplication.CreateBuilder(args);
 
 
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
@@ -13,6 +14,11 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("http://localhost:4200") // Angular dev server
             .AllowAnyHeader()
             .AllowAnyMethod();
+        
+        // policy.WithOrigins("http://localhost:4200", "http://localhost:80", "http://urlshortener-client")
+        //     .AllowAnyHeader()
+        //     .AllowAnyMethod();
+        
     });
 });
 

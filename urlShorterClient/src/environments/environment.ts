@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    apiUrl: 'http://localhost:5294'  // Your ASP.NET API URL from docker-compose
+    apiUrl: 'http://localhost:5295'  
   };

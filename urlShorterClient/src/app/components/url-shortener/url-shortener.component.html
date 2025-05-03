@@ -1,0 +1,53 @@
+<div class="container">
+    <h1>URL Shortener</h1>
+    
+    <form [formGroup]="urlForm" (ngSubmit)="shortenUrl()">
+      <div class="form-group">
+        <label for="url">Enter a URL to shorten</label>
+        <input 
+          type="url" 
+          id="url" 
+          formControlName="url" 
+          placeholder="https://example.com/long-url-here"
+          class="form-control"
+          required>
+        <div *ngIf="urlForm.get('url')?.invalid && urlForm.get('url')?.touched" class="error-message">
+          <p *ngIf="urlForm.get('url')?.errors?.['required']">URL is required</p>
+          <p *ngIf="urlForm.get('url')?.errors?.['pattern']">Please enter a valid URL</p>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="ttl">Expiration Time (minutes)</label>
+        <input 
+          type="number" 
+          id="ttl" 
+          formControlName="ttlMinutes" 
+          min="1" 
+          max="1440"
+          class="form-control">
+        <small>Shortened URL will expire after this many minutes (1-1440)</small>
+      </div>
+      
+      <button type="submit" [disabled]="urlForm.invalid || isLoading" class="btn-primary">
+        <span *ngIf="isLoading">Processing...</span>
+        <span *ngIf="!isLoading">Shorten URL</span>
+      </button>
+    </form>
+    
+    <!-- Simple result display -->
+    <div *ngIf="shortUrl" class="result-container">
+      <h3>Your Shortened URL:</h3>
+      <div class="url-display">
+        <a [href]="shortUrl" target="_blank">{{ shortUrl }}</a>
+        <button (click)="copyToClipboard()" class="btn-copy">
+          <span *ngIf="!copied">Copy</span>
+          <span *ngIf="copied">Copied!</span>
+        </button>
+      </div>
+    </div>
+    
+    <div *ngIf="errorMessage" class="error-container">
+      <p>{{ errorMessage }}</p>
+    </div>
+  </div>
