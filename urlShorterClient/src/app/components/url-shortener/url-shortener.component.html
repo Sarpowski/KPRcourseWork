@@ -24,7 +24,7 @@
           id="ttl" 
           formControlName="ttlMinutes" 
           min="1" 
-          max="1440"
+          max="100"
           class="form-control">
         <small>Shortened URL will expire after this many minutes (1-1440)</small>
       </div>
@@ -35,7 +35,6 @@
       </button>
     </form>
     
-    <!-- Simple result display -->
     <div *ngIf="shortUrl" class="result-container">
       <h3>Your Shortened URL:</h3>
       <div class="url-display">
