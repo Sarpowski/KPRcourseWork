@@ -71,9 +71,9 @@ SQLite database for simple, file-based persistence
 The application follows a client-server architecture:
 
 ┌─────────────────┐      ┌─────────────────┐      ┌─────────────────┐
-│                 │      │                 │      │                 │
-│  Angular Client │ ─────▶  ASP.NET Core   │ ─────▶  SQLite DB     │
-│  (Frontend)     │      │  API (Backend)  │      │  (Data Storage) │
+│                               │                 │      │                 │
+│  Angular Client       │ ─────▶  ASP.NET Core   │ ─────▶  SQLite DB     │
+│  (Frontend)             │      │  API (Backend)  │      │  (Data Storage) │
 │                 │      │                 │      │                 │
 └─────────────────┘      └─────────────────┘      └─────────────────┘
 
