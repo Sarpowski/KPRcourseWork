@@ -109,7 +109,7 @@ Using Docker Compose (Recommended)
 
 Clone the repository:
 ```
-git clone https://github.com/yourusername/url-shortener.git
+git clone https://github.com/Sarpowski/KPRcourseWork.git
 cd url-shortener
 ```
 Start the application with Docker Compose:
